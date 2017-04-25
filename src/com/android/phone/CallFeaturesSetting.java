@@ -53,6 +53,8 @@ import com.android.phone.settings.PhoneAccountSettingsFragment;
 import com.android.phone.settings.VoicemailSettingsActivity;
 import com.android.phone.settings.fdn.FdnSetting;
 
+import com.android.internal.util.syberia.SyberiaUtils;
+
 import java.util.List;
 
 import org.codeaurora.ims.QtiCallConstants;
@@ -408,6 +410,10 @@ public class CallFeaturesSetting extends PreferenceActivity
                         CarrierConfigManager.KEY_CARRIER_VOLTE_TTY_SUPPORTED_BOOL)) {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             /* tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE); */
+        }
+
+        if (!SyberiaUtils.isPackageInstalled(this, "com.qualcomm.qti.ims")) {
+            prefSet.removePreference(findPreference("ims_settings_key"));
         }
 
         final PhoneAccountHandle simCallManager = mTelecomManager.getSimCallManager();
