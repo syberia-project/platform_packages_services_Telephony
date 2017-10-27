@@ -1818,7 +1818,8 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
             break;
         }
 
-
+        final int phoneSubId = mSubscriptionController.getDefaultDataSubId();
+        Phone sPhone = getPhone(phoneSubId);
         sPhone.setPreferredNetworkType(network,
                 mMainThreadHandler.obtainMessage(CMD_TOGGLE_LTE));
 
