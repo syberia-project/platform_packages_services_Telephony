@@ -123,6 +123,9 @@
     <!-- GSM Call settings screen, setting option name with label indicating the SIM the settings
          are applied to. [CHAR LIMIT=40] -->
     <string name="labelGsmMore_with_label">GSM call settings (<xliff:g id="subscriptionlabel" example="T-Mobile">%s</xliff:g>)</string>
+    <string name="labelCFType">Call Forward Setting</string>
+    <string name="labelCFVoice">Voice</string>
+    <string name="labelCFVideo">Video</string>
     <!-- CDMA Call settings screen, setting option name -->
     <string name="labelCDMAMore">CDMA call settings</string>
     <!-- CDMA Call settings screen, setting option name with label indicating the SIM the settings
@@ -600,6 +603,7 @@
     <string name="ussd_dialog_sep" translatable="false">----------</string>
 
     <string name="gsm_umts_options">GSM/UMTS Options</string>
+    <string name="call_forward_option">CallForward Options</string>
     <string name="cdma_options">CDMA Options</string>
 
     <!-- Screen option on the mobile network settings to go into data usage settings -->
@@ -1154,6 +1158,9 @@
     <string name="dial_emergency_error">Can\'t call. <xliff:g id="non_emergency_number">%s</xliff:g> is not an emergency number.</string>
     <!-- Emergency dialer: message displayed in an error dialog -->
     <string name="dial_emergency_empty_error">Can\'t call. Dial an emergency number.</string>
+    <!-- Message displayed over top of the emergency dialer dialpad indicating to the user that
+         emergency calling is not currently available. -->
+    <string name="dial_emergency_calling_not_available">Emergency calling not available</string>
 
     <!-- Displayed in the text entry box in the dialer when in landscape mode to guide the user
          to dial using the physical keyboard -->
@@ -1204,7 +1211,7 @@
 
     <!-- RTT settings: used to turn on/off Real-Time Text, an accessibility feature similar to
          TTY that allows users to send text over a phone call. -->
-    <string name="rtt_mode_title">Real-time text(RTT) call</string>
+    <string name="rtt_mode_title">Real-time text (RTT) call</string>
     <string name="rtt_mode_summary">Allow messaging within a voice call</string>
     <string name="rtt_mode_more_information">
        RTT assists callers who are deaf, hard hearing, have a speech disability,
@@ -1773,4 +1780,6 @@
     <string name="supp_service_held_call_released">Held call has been released.</string>
     <string name="srvcc_video_message">"Video call is downgraded to 2G/3G voice call due to 4G network is not available."</string>
     <string name="srvcc_message">"4G voice call is downgraded to 2G/3G voice call due to 4G network is not available."</string>
+    <string name="ut_not_support">UT is not available</string>
+    <string name="ct_ut_not_support_close_4glte">UT is not available, please turn off Enhanced 4G LTE Mode in Settings</string>
 </resources>

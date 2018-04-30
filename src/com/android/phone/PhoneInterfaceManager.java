@@ -42,6 +42,7 @@ import android.os.PersistableBundle;
 import android.os.RemoteException;
 import android.os.ResultReceiver;
 import android.os.ServiceManager;
+import android.os.ShellCallback;
 import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.os.UserManager;
@@ -2723,6 +2724,37 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         return PhoneFactory.getImsResolver().isResolvingBinding();
     }
 
+    /**
+     * Sets the ImsService Package Name that Telephony will bind to.
+     *
+     * @param slotId the slot ID that the ImsService should bind for.
+     * @param isCarrierImsService true if the ImsService is the carrier override, false if the
+     *         ImsService is the device default ImsService.
+     * @param packageName The package name of the application that contains the ImsService to bind
+     *         to.
+     * @return true if setting the ImsService to bind to succeeded, false if it did not.
+     * @hide
+     */
+    public boolean setImsService(int slotId, boolean isCarrierImsService, String packageName) {
+        enforceModifyPermission();
+        return PhoneFactory.getImsResolver().overrideImsServiceConfiguration(slotId,
+                isCarrierImsService, packageName);
+    }
+
+    /**
+     * Return the ImsService configuration.
+     *
+     * @param slotId The slot that the ImsService is associated with.
+     * @param isCarrierImsService true, if the ImsService is a carrier override, false if it is
+     *         the device default.
+     * @return the package name of the ImsService configuration.
+     */
+    public String getImsService(int slotId, boolean isCarrierImsService) {
+        enforceReadPrivilegedPermission();
+        return PhoneFactory.getImsResolver().getImsServiceConfiguration(slotId,
+                isCarrierImsService);
+    }
+
     public void setImsRegistrationState(boolean registered) {
         enforceModifyPermission();
         mPhone.setImsRegistrationState(registered);
@@ -3964,6 +3996,13 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
         DumpsysHandler.dump(mPhone.getContext(), fd, writer, args);
     }
 
+    @Override
+    public void onShellCommand(FileDescriptor in, FileDescriptor out, FileDescriptor err,
+            String[] args, ShellCallback callback, ResultReceiver resultReceiver)
+            throws RemoteException {
+        (new TelephonyShellCommand(this)).exec(this, in, out, err, args, callback, resultReceiver);
+    }
+
     /**
      * Get aggregated video call data usage since boot.
      *
@@ -4187,5 +4226,28 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
                         mSubscriptionController.getPhoneId(subId),
                         DEFAULT_NETWORK_MODE_PROPERTY_NAME,
                         String.valueOf(Phone.PREFERRED_NT_MODE)));
+    }
+
+    @Override
+    public void setCarrierTestOverride(int subId, String mccmnc, String imsi, String iccid, String
+            gid1, String gid2, String plmn, String spn) {
+        enforceModifyPermission();
+        final Phone phone = getPhone(subId);
+        if (phone == null) {
+            loge("setCarrierTestOverride fails with invalid subId: " + subId);
+            return;
+        }
+        phone.setCarrierTestOverride(mccmnc, imsi, iccid, gid1, gid2, plmn, spn);
+    }
+
+    @Override
+    public int getCarrierIdListVersion(int subId) {
+        enforceReadPrivilegedPermission();
+        final Phone phone = getPhone(subId);
+        if (phone == null) {
+            loge("getCarrierIdListVersion fails with invalid subId: " + subId);
+            return TelephonyManager.UNKNOWN_CARRIER_ID_LIST_VERSION;
+        }
+        return phone.getCarrierIdListVersion();
     }
 }
