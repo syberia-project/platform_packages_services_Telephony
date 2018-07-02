@@ -21,11 +21,14 @@ import android.os.SystemProperties;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.telephony.CarrierConfigManager;
+import android.telephony.ims.feature.ImsFeature;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+import com.android.ims.ImsException;
+import com.android.ims.ImsManager;
 import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyIntents;
 
@@ -38,6 +41,8 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity
     private static final String NUM_PROJECTION[] = {
         android.provider.ContactsContract.CommonDataKinds.Phone.NUMBER
     };
+
+    public static final String CALL_FORWARD_INTENT = "org.codeaurora.settings.CDMA_CALL_FORWARDING";
 
     private static final String BUTTON_CFU_KEY   = "button_cfu_key";
     private static final String BUTTON_CFB_KEY   = "button_cfb_key";
@@ -67,6 +72,7 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity
     private SubscriptionManager mSubscriptionManager;
     private boolean mCheckData = false;
     AlertDialog.Builder builder = null;
+    private CarrierConfigManager mCarrierConfig;
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -79,14 +85,14 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity
                 getActionBar(), getResources(), R.string.call_forwarding_settings_with_label);
         mPhone = mSubscriptionInfoHelper.getPhone();
 
-        CarrierConfigManager carrierConfig = (CarrierConfigManager)
+        mCarrierConfig = (CarrierConfigManager)
                 getSystemService(CARRIER_CONFIG_SERVICE);
-        if (carrierConfig != null) {
-            mReplaceInvalidCFNumbers = carrierConfig.getConfigForSubId(mPhone.getSubId())
+        if (mCarrierConfig != null) {
+            mReplaceInvalidCFNumbers = mCarrierConfig.getConfigForSubId(mPhone.getSubId())
                 .getBoolean(
                     CarrierConfigManager.KEY_CALL_FORWARDING_MAP_NON_NUMBER_TO_VOICEMAIL_BOOL);
 
-            PersistableBundle pb = carrierConfig.getConfigForSubId(mPhone.getSubId());
+            PersistableBundle pb = mCarrierConfig.getConfigForSubId(mPhone.getSubId());
             mCheckData = pb.getBoolean("check_mobile_data_for_cf");
         }
 
@@ -236,9 +242,43 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity
         return ConnectivityManager.TYPE_NONE;
     }
 
+    //prompt dialog to notify user turn off Enhance 4G LTE switch
+    private boolean isPromptTurnOffEnhance4GLTE(Phone phone) {
+        if (phone == null || phone.getImsPhone() == null) {
+            return false;
+        }
+
+        ImsManager imsMgr = ImsManager.getInstance(this, phone.getPhoneId());
+        try {
+            if (imsMgr.getImsServiceState() != ImsFeature.STATE_READY) {
+                Log.d(LOG_TAG, "ImsServiceStatus is not ready!");
+                return false;
+            }
+        } catch (ImsException ex) {
+            Log.d(LOG_TAG, "Exception when trying to get ImsServiceStatus: " + ex);
+            return false;
+        }
+
+        return imsMgr.isEnhanced4gLteModeSettingEnabledByUser()
+            && imsMgr.isNonTtyOrTtyOnVolteEnabled()
+            && !phone.isUtEnabled()
+            && !phone.isVolteEnabled()
+            && !phone.isVideoEnabled();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+        if (mCarrierConfig.getConfigForSubId(mPhone.getSubId())
+                .getBoolean(CarrierConfigManager.KEY_CDMA_CW_CF_ENABLED_BOOL)
+                && isPromptTurnOffEnhance4GLTE(mPhone)) {
+            String title = (String)this.getResources()
+                .getText(R.string.ut_not_support);
+            String msg = (String)this.getResources()
+                .getText(R.string.ct_ut_not_support_close_4glte);
+            showAlertDialog(title, msg);
+            return;
+        }
 
         if (mCheckData) {
             IntentFilter intentFilter = new IntentFilter();
@@ -267,8 +307,8 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity
                     CallForwardInfo cf = new CallForwardInfo();
                     cf.number = bundle.getString(KEY_NUMBER);
                     cf.status = bundle.getInt(KEY_STATUS);
-                    pref.handleCallForwardResult(cf);
                     pref.init(this, true, mPhone, mReplaceInvalidCFNumbers, mServiceClass);
+                    pref.handleCallForwardResult(cf);
                 }
             }
             mFirstResume = false;
@@ -339,9 +379,32 @@ public class GsmUmtsCallForwardOptions extends TimeConsumingPreferenceActivity
     @Override
     public void onFinished(Preference preference, boolean reading) {
         if (mInitIndex < mPreferences.size()-1 && !isFinishing()) {
-            mInitIndex++;
-            mPreferences.get(mInitIndex).init(this, false, mPhone, mReplaceInvalidCFNumbers,
-                    mServiceClass);
+            if (mInitIndex == 0 && mButtonCFU.isAutoRetryCfu()) {
+                Log.i(LOG_TAG, "auto retry case: ");
+                CarrierConfigManager carrierConfig = (CarrierConfigManager)
+                    getSystemService(CARRIER_CONFIG_SERVICE);
+                if(carrierConfig != null && mPhone != null
+                        && carrierConfig.getConfigForSubId(mPhone.getSubId())
+                            .getBoolean(CarrierConfigManager.KEY_CDMA_CW_CF_ENABLED_BOOL)) {
+                    if (isPromptTurnOffEnhance4GLTE(mPhone)) {
+                        String title = (String)this.getResources()
+                            .getText(R.string.ut_not_support);
+                        String msg = (String)this.getResources()
+                            .getText(R.string.ct_ut_not_support_close_4glte);
+                        showAlertDialog(title, msg);
+                    }else if (mPhone.getPhoneType() == PhoneConstants.PHONE_TYPE_CDMA ){ 
+                        Log.i(LOG_TAG, "auto retry and switch to cmda method UI.");
+                        Intent intent = new Intent(CALL_FORWARD_INTENT);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            } else {
+                mInitIndex++;
+                mPreferences.get(mInitIndex).init(this, false, mPhone, mReplaceInvalidCFNumbers,
+                        mServiceClass);
+            }
         }
 
         super.onFinished(preference, reading);
