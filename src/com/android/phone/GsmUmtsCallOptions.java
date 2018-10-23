@@ -18,14 +18,12 @@ package com.android.phone;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.telephony.CarrierConfigManager;
 import android.view.MenuItem;
 
-import com.android.internal.telephony.Phone;
 import com.android.internal.telephony.PhoneConstants;
 
 public class GsmUmtsCallOptions extends PreferenceActivity {
@@ -63,12 +61,37 @@ public class GsmUmtsCallOptions extends PreferenceActivity {
     }
 
     public static void init(PreferenceScreen prefScreen, SubscriptionInfoHelper subInfoHelper) {
+        PersistableBundle b = null;
+        if (subInfoHelper.hasSubId()) {
+            b = PhoneGlobals.getInstance().getCarrierConfigForSubId(subInfoHelper.getSubId());
+        } else {
+            b = PhoneGlobals.getInstance().getCarrierConfig();
+        }
+
         Preference callForwardingPref = prefScreen.findPreference(CALL_FORWARDING_KEY);
-        callForwardingPref.setIntent(subInfoHelper.getIntent(CallForwardType.class));
+        if (callForwardingPref != null) {
+            if (b != null && b.getBoolean(
+                    CarrierConfigManager.KEY_CALL_FORWARDING_VISIBILITY_BOOL)) {
+                callForwardingPref.setIntent(
+                        subInfoHelper.getIntent(GsmUmtsCallForwardOptions.class));
+            } else {
+                prefScreen.removePreference(callForwardingPref);
+            }
+        }
 
         Preference additionalGsmSettingsPref =
                 prefScreen.findPreference(ADDITIONAL_GSM_SETTINGS_KEY);
-        additionalGsmSettingsPref.setIntent(
-                subInfoHelper.getIntent(GsmUmtsAdditionalCallOptions.class));
+        if (additionalGsmSettingsPref != null) {
+            if (b != null && (b.getBoolean(
+                    CarrierConfigManager.KEY_ADDITIONAL_SETTINGS_CALL_WAITING_VISIBILITY_BOOL)
+                    || b.getBoolean(
+                    CarrierConfigManager.KEY_ADDITIONAL_SETTINGS_CALLER_ID_VISIBILITY_BOOL))) {
+                additionalGsmSettingsPref.setIntent(
+                        subInfoHelper.getIntent(GsmUmtsAdditionalCallOptions.class));
+            } else {
+                prefScreen.removePreference(additionalGsmSettingsPref);
+            }
+        }
+
     }
 }
