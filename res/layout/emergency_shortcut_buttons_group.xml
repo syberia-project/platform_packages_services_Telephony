@@ -18,23 +18,26 @@
     android:id="@+id/emergency_shortcut_buttons_group"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_marginTop="@dimen/emergency_shortcuts_group_margin_top"
     android:orientation="vertical">
     <FrameLayout
         android:id="@+id/emergency_number_title_group"
         android:layout_height="@dimen/emergency_number_title_height"
         android:layout_width="match_parent"
-        android:paddingHorizontal="@dimen/emergency_number_title_group_padding_horizontal">
+        android:layout_marginHorizontal="@dimen/emergency_number_title_group_padding_horizontal">
         <FrameLayout
             android:id="@+id/emergency_number_title_container"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/emergency_number_title_container_width"
             android:layout_gravity="center_vertical|start">
             <TextView
                 android:id="@+id/emergency_number_title"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="start"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineHeight="@dimen/emergency_number_title_line_height"
+                android:fontFamily="sans-serif-medium"
                 android:textAppearance="@style/SubtitleTextAppearance"
                 android:text="@string/single_emergency_number_title"/>
         </FrameLayout>
@@ -42,20 +45,24 @@
             android:id="@+id/location_info"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/emergency_number_title_container_width"
             android:layout_gravity="center_vertical|end"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:alpha="0.7">
             <ImageView
                 android:id="@+id/location_icon"
                 android:layout_width="@dimen/location_image_width"
                 android:layout_height="@dimen/location_image_height"
-                android:src="@drawable/ic_location_on_white_18"/>
+                android:src="@drawable/place_gm2_24px"/>
             <TextView
                 android:id="@+id/location_text"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:paddingStart="4dp"
-                android:alpha="0.7"
+                android:layout_marginStart="@dimen/location_text_margin_start"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineHeight="@dimen/location_text_line_height"
                 android:textAppearance="@style/SubtitleTextAppearance"/>
         </LinearLayout>
     </FrameLayout>
@@ -66,7 +73,6 @@
         android:layout_marginHorizontal="@dimen/emergency_shortcut_buttons_margin_horizontal"
         android:orientation="vertical"
         android:divider="@drawable/emergency_shortcuts_divider"
-        android:showDividers="middle"
-        android:background="@drawable/btn_emergency_shortcuts">
+        android:showDividers="middle">
     </LinearLayout>
 </LinearLayout>

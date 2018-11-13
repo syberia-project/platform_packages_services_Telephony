@@ -401,6 +401,8 @@
     <string name="already_auto">Already in automatic selection.</string>
     <!-- Available networks screen, name of switch button for whether to select network automatically -->
     <string name="select_automatically">Automatically select network</string>
+    <!-- Available networks screen, summary when button disallowed due to permanent automatic mode -->
+    <string name="manual_mode_disallowed_summary">Unavailable when connected to %1$s</string>
     <!-- Available networks screen, name of button when user wants to select network manually  -->
     <string name="network_select_title">Network</string>
     <string name="register_automatically">Automatic registration\u2026</string>
@@ -541,7 +543,15 @@
     <!-- Mobile network 4G title [CHAR LIMIT=30] -->
     <string name="enhanced_4g_lte_mode_title">Enhanced 4G LTE Mode</string>
     <!-- Carrier variant of Enhaced 4G LTE Mode title.  [CHAR LIMIT=50] -->
-    <string name="enhanced_4g_lte_mode_title_variant">Advanced Calling</string>
+    <string-array name="enhanced_4g_lte_mode_title_variant">
+        <!-- 0: Default -->
+        <item>@string/enhanced_4g_lte_mode_title</item>
+        <!-- 1: Verizon -->
+        <item>Advanced Calling</item>
+        <!-- 2: O2 UK -->
+        <item>4G Calling</item>
+    </string-array>
+
     <!-- Mobile network 4G summary [CHAR LIMIT=80] -->
     <string name="enhanced_4g_lte_mode_summary">Use LTE services to improve voice and other communications (recommended)</string>
 
@@ -1099,8 +1109,8 @@
     <!-- Label for the "No service" notification item, when expanded. -->
     <string name="notification_network_selection_title">No service</string>
     <!-- Label for the expanded "No service" notification item, including the
-         operator name set by user -->
-    <string name="notification_network_selection_text">Selected network (<xliff:g id="operator_name">%s</xliff:g>) unavailable</string>
+         operator name set by user. No space after "network", appended in nonempty value. -->
+    <string name="notification_network_selection_text">Selected network<xliff:g id="operator_name">%s</xliff:g> unavailable</string>
 
     <!-- In-call screen: call failure message displayed in an error dialog. [CHAR_LIMIT=NONE] -->
     <string name="incall_error_power_off" product="watch">Turn on mobile network, turn off airplane mode or turn off battery saver mode to make a call.</string>
@@ -1151,8 +1161,8 @@
     <string name="emergency_information_hint">Emergency information</string>
     <!-- Hint for the owner of emergency information -->
     <string name="emergency_information_owner_hint">Owner</string>
-    <!-- Content description for the owner of emergency information -->
-    <string name="emergency_information_owner_content_description"><xliff:g id="user_name">%s</xliff:g>\'s</string>
+    <!-- Hint for confirm the emergency information -->
+    <string name="emergency_information_confirm_hint">Tap again to view info</string>
     <!-- Dialog title for the "radio enable" UI for emergency calls -->
     <string name="emergency_enable_radio_dialog_title">Emergency call</string>
     <!-- Title for the emergency dialpad UI -->
@@ -1178,6 +1188,19 @@
     <!-- Message displayed over top of the emergency dialer dialpad indicating to the user that
          emergency calling is not currently available. -->
     <string name="dial_emergency_calling_not_available">Emergency calling not available</string>
+
+    <!-- Text for description of police calling type -->
+    <string name="police_type_description">Police</string>
+    <!-- Text for description of ambulance calling type -->
+    <string name="ambulance_type_description">Ambulance</string>
+    <!-- Text for description of fire calling type -->
+    <string name="fire_type_description">Fire</string>
+
+    <!-- Format for concatenating multiple emergency type descriptions. The separator may differ in
+         different locales, for example arabic comma "،" is used in some countries. Some languages
+         may use full-width separator without leading or trailing spaces, eg. Ideographic comma "、"
+         in Chinese and Japanese. -->
+    <string name="description_concat_format">%1$s, %2$s</string>
 
     <!-- Displayed in the text entry box in the dialer when in landscape mode to guide the user
          to dial using the physical keyboard -->
@@ -1412,6 +1435,13 @@
          [CHAR LIMIT=NONE]
     -->
     <string name="description_dialpad_button">show dialpad</string>
+
+    <!-- Pane title of the Emergency Dialpad
+
+     Used by AccessibilityService to announce the purpose of the pane of emergency dialpad.
+     [CHAR LIMIT=NONE]
+    -->
+    <string name="pane_title_emergency_dialpad">Emergency Dialpad</string>
 
     <!-- Visual voicemail on/off title [CHAR LIMIT=40] -->
     <string name="voicemail_visual_voicemail_switch_title">Visual Voicemail</string>
@@ -1806,4 +1836,36 @@
     <string name="srvcc_message">"4G voice call is downgraded to 2G/3G voice call due to 4G network is not available."</string>
     <string name="ut_not_support">UT is not available</string>
     <string name="ct_ut_not_support_close_4glte">UT is not available, please turn off Enhanced 4G LTE Mode in Settings</string>
+    <string name="switch_dds_to_sub_alert_msg">Please switch mobile data to CT SIM</string>
+
+    <!-- In-call screen: error message shown when the user has attempted to place a new outgoing
+         call, but there is already a call in dialing state. -->
+    <string name="callFailed_already_dialing">Cannot place a call as another outgoing call is already dialing.</string>
+    <!-- In-call screen: error message shown when the user has attempted to place a new outgoing
+         call while there is already a call in ringing state. -->
+    <string name="callFailed_already_ringing">Cannot place a call as there is an unanswered incoming call.  Answer or reject the incoming call prior to placing a new call.</string>
+    <!-- In-call screen: error message shown when the user attempts to place a call, but calling has
+         been disabled using a debug property. -->
+    <string name="callFailed_calling_disabled">Cannot place a call as calling has been disabled using the ro.telephony.disable-call system property.</string>
+    <!-- In-call screen: error message shown when the user attempts to place a call, but calling has
+         been disabled using a debug property. -->
+    <string name="callFailed_too_many_calls">Cannot place a call a there are already two calls in progress.  Disconnect one of the calls or merge them into a conference prior to placing a new call.</string>
+    <!-- Message displayed to the user when they attempt to edit options for a supplementary service
+         (call waiting, call barring, call forwarding, and caller ID), but they are required to
+         enable mobile data first. -->
+    <string name="supp_service_over_ut_precautions">To use <xliff:g id="supp service">%s</xliff:g>, make sure mobile data is turned on. You can change this in mobile network settings.</string>
+    <!-- Message displayed to the user when they attempt to edit options for a supplementary service
+         (call waiting, call barring, call forwarding, and caller ID) in roaming, but they are
+         required to enable mobile data and data roaming first. -->
+    <string name="supp_service_over_ut_precautions_roaming">To use <xliff:g id="supp service">%s</xliff:g>, make sure mobile data and data roaming are turned on. You can change these in mobile network settings.</string>
+    <!-- Message displayed to the user when they attempt to edit options for a supplementary service
+         (call waiting, call barring, call forwarding, and caller ID), but they are
+         required to enable mobile data first for each sim. -->
+    <string name="supp_service_over_ut_precautions_dual_sim">To use <xliff:g id="supp service">%1$s</xliff:g>, make sure mobile data is turned on for SIM <xliff:g id="sim number">%2$d</xliff:g>. You can change this in mobile network settings.</string>
+    <!-- Message displayed to the user when they attempt to edit options for a supplementary service
+         (call waiting, call barring, call forwarding, and caller ID) in roaming device, but
+         they are required to enable mobile data and data roaming first for each sim. -->
+    <string name="supp_service_over_ut_precautions_roaming_dual_sim">To use <xliff:g id="supp service">%1$s</xliff:g>, make sure mobile data and data roaming are turned on for SIM <xliff:g id="sim number">%2$d</xliff:g>. You can change these in mobile network settings.</string>
+    <!-- supplementary services over ut precaution exit dialog choice -->
+    <string name="supp_service_over_ut_precautions_dialog_dismiss">Dismiss</string>
 </resources>

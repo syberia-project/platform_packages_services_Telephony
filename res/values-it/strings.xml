@@ -170,6 +170,7 @@
     <string name="registration_done" msgid="495135664535876612">"Registrato sulla rete."</string>
     <string name="already_auto" msgid="6067116884321285507">"Già in selezione automatica."</string>
     <string name="select_automatically" msgid="1046727200631770962">"Seleziona rete automaticamente"</string>
+    <string name="manual_mode_disallowed_summary" msgid="70662262085937277">"Non disponibile quando sei connesso a %1$s"</string>
     <string name="network_select_title" msgid="7733107364757544558">"Rete"</string>
     <string name="register_automatically" msgid="6017849844573519637">"Registrazione automatica..."</string>
     <string name="preferred_network_mode_title" msgid="2336624679902659306">"Tipo di rete preferito"</string>
@@ -235,7 +236,7 @@
     <string name="call_category" msgid="5863978196309462052">"Chiamata in corso"</string>
     <string name="network_operator_category" msgid="4830701959205735636">"Rete"</string>
     <string name="enhanced_4g_lte_mode_title" msgid="522191650223239171">"Modalità 4G LTE avanzata"</string>
-    <string name="enhanced_4g_lte_mode_title_variant" msgid="4871126028907265406">"Chiamata avanzata"</string>
+    <!-- no translation found for enhanced_4g_lte_mode_title_variant:0 (4447454259719947406) -->
     <string name="enhanced_4g_lte_mode_summary" msgid="2332175070522125850">"Usa i servizi LTE per migliorare la voce e le altre comunicazioni (consigliato)"</string>
     <string name="data_enabled" msgid="5972538663568715366">"Dati attivati"</string>
     <string name="data_enable_summary" msgid="2382798156640007971">"Consenti l\'utilizzo dei dati"</string>
@@ -394,13 +395,13 @@
     <string name="fdn_with_label" msgid="187084204115493366">"Numeri consentiti (<xliff:g id="SUBSCRIPTIONLABEL">%s</xliff:g>)"</string>
     <string name="manage_fdn_list" msgid="8777755791892122369">"Elenco numeri consentiti"</string>
     <string name="fdn_list_with_label" msgid="7437232552210469217">"Elenco numeri consentiti (<xliff:g id="SUBSCRIPTIONLABEL">%s</xliff:g>)"</string>
-    <string name="fdn_activation" msgid="2156479741307463576">"Attivazione FDN"</string>
+    <string name="fdn_activation" msgid="2156479741307463576">"Attivazione numeri consentiti"</string>
     <string name="fdn_enabled" msgid="5238109009915521240">"Numeri di selezione fissa attivi"</string>
     <string name="fdn_disabled" msgid="4700049736675368279">"La funzionalità Numeri consentiti non è attiva"</string>
-    <string name="enable_fdn" msgid="3740191529180493851">"Attiva FDN"</string>
-    <string name="disable_fdn" msgid="7944020890722540616">"Disattiva FDN"</string>
+    <string name="enable_fdn" msgid="3740191529180493851">"Attiva numeri consentiti"</string>
+    <string name="disable_fdn" msgid="7944020890722540616">"Disattiva numeri consentiti"</string>
     <string name="change_pin2" msgid="2153563695382176676">"Cambia PIN2"</string>
-    <string name="enable_fdn_ok" msgid="7215588870329688132">"Disattiva FDN"</string>
+    <string name="enable_fdn_ok" msgid="7215588870329688132">"Disattiva numeri consentiti"</string>
     <string name="disable_fdn_ok" msgid="5727046928930740173">"Attiva numeri consentiti"</string>
     <string name="sum_fdn" msgid="1959399454900272878">"Gestisci numeri di selezione fissa"</string>
     <string name="sum_fdn_change_pin" msgid="6666549734792827932">"Cambia PIN per accesso ai numeri consentiti"</string>
@@ -429,10 +430,10 @@
     <string name="delete_fdn_contact" msgid="6668958073074151717">"Elimina numero selezione fissa"</string>
     <string name="deleting_fdn_contact" msgid="5669163206349319969">"Eliminazione numero selezione fissa..."</string>
     <string name="fdn_contact_deleted" msgid="7154162327112259569">"Numero di selezione fissa eliminato."</string>
-    <string name="pin2_invalid" msgid="5470854099230755944">"FDN non aggiornato perché il PIN inserito non è corretto."</string>
-    <string name="fdn_invalid_number" msgid="2062898833049589309">"FDN non è stato aggiornato perché il numero supera le 20 cifre."</string>
-    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"FDN non aggiornato. Il codice PIN2 non era corretto o il numero di telefono è stato rifiutato."</string>
-    <string name="fdn_failed" msgid="540018079008319747">"Operazione FDN non riuscita."</string>
+    <string name="pin2_invalid" msgid="5470854099230755944">"Numeri consentiti non aggiornati perché il PIN inserito non è corretto."</string>
+    <string name="fdn_invalid_number" msgid="2062898833049589309">"I numeri consentiti non sono stati aggiornati perché il numero supera le 20 cifre."</string>
+    <string name="pin2_or_fdn_invalid" msgid="6025144083384701197">"Numeri consentiti non aggiornati. Il codice PIN2 non era corretto o il numero di telefono è stato rifiutato."</string>
+    <string name="fdn_failed" msgid="540018079008319747">"Operazione numeri consentiti non riuscita."</string>
     <string name="simContacts_emptyLoading" msgid="2203331234764498011">"Lettura da SIM..."</string>
     <string name="simContacts_empty" msgid="5270660846489561932">"Nessun contatto presente nella SIM."</string>
     <string name="simContacts_title" msgid="1861472842524839921">"Seleziona contatti da importare"</string>
@@ -486,7 +487,7 @@
     <string name="notification_voicemail_text_format" msgid="4447323569453981685">"Componi <xliff:g id="VOICEMAIL_NUMBER">%s</xliff:g>"</string>
     <string name="notification_voicemail_no_vm_number" msgid="760963466895609716">"Numero segreteria sconosciuto"</string>
     <string name="notification_network_selection_title" msgid="4224455487793492772">"Nessun servizio"</string>
-    <string name="notification_network_selection_text" msgid="2607085729661923269">"Rete selezionata (<xliff:g id="OPERATOR_NAME">%s</xliff:g>) non disponibile"</string>
+    <string name="notification_network_selection_text" msgid="7550380440576731104">"Rete selezionata <xliff:g id="OPERATOR_NAME">%s</xliff:g> non disponibile"</string>
     <string name="incall_error_power_off" product="watch" msgid="2007450435656211658">"Attiva la rete mobile e disattiva la modalità aereo o il risparmio energetico per effettuare una chiamata."</string>
     <string name="incall_error_power_off" product="default" msgid="2947938060513306698">"Disattiva la modalità aereo per effettuare una chiamata."</string>
     <string name="incall_error_power_off_wfc" msgid="8711428920632416575">"Disattiva la modalità aereo o connettiti a una rete wireless per effettuare una chiamata."</string>
@@ -510,7 +511,7 @@
     <string name="incall_error_promote_wfc" msgid="106510757624022064">"Attiva le chiamate tramite Wi-Fi per effettuare una chiamata."</string>
     <string name="emergency_information_hint" msgid="399011533038204351">"Informazioni per le emergenze"</string>
     <string name="emergency_information_owner_hint" msgid="688331472291637149">"Proprietario"</string>
-    <string name="emergency_information_owner_content_description" msgid="2375334661543174443">"Di <xliff:g id="USER_NAME">%s</xliff:g>"</string>
+    <string name="emergency_information_confirm_hint" msgid="4039012670779853030">"Tocca di nuovo per visualizzare le informazioni"</string>
     <string name="emergency_enable_radio_dialog_title" msgid="4627849966634578257">"Chiamata di emergenza"</string>
     <string name="emergency_dialpad_title" msgid="6052294225467269233">"Solo chiamate di emergenza"</string>
     <string name="single_emergency_number_title" msgid="4959203129714396515">"Numero di emergenza"</string>
@@ -522,6 +523,10 @@
     <string name="dial_emergency_error" msgid="1509085166367420355">"Impossibile chiamare. <xliff:g id="NON_EMERGENCY_NUMBER">%s</xliff:g> non è un numero di emergenza."</string>
     <string name="dial_emergency_empty_error" msgid="9130194953830414638">"Impossibile chiamare. Componi un numero di emergenza."</string>
     <string name="dial_emergency_calling_not_available" msgid="5675557523782491826">"Chiamate di emergenza non disponibili"</string>
+    <string name="police_type_description" msgid="5324410799919829693">"Polizia"</string>
+    <string name="ambulance_type_description" msgid="4114815025408089866">"Ambulanza"</string>
+    <string name="fire_type_description" msgid="7145996705197064710">"Vigili del fuoco"</string>
+    <string name="description_concat_format" msgid="7141070875487870177">"%1$s, %2$s"</string>
     <string name="dialerKeyboardHintText" msgid="9192914825413747792">"Usa tastiera"</string>
     <string name="onscreenHoldText" msgid="2285258239691145872">"In attesa"</string>
     <string name="onscreenEndCallText" msgid="4403855834875398585">"Chiudi"</string>
@@ -608,6 +613,7 @@
     <string name="not_voice_capable" msgid="2739898841461577811">"Chiamate vocali non supportate"</string>
     <string name="description_dial_button" msgid="7459705245418435351">"componi"</string>
     <string name="description_dialpad_button" msgid="5220006811894230590">"mostra tastierino"</string>
+    <string name="pane_title_emergency_dialpad" msgid="1148505414688493134">"Tastierino di emergenza"</string>
     <string name="voicemail_visual_voicemail_switch_title" msgid="5012622186976275457">"Leggi la segreteria"</string>
     <string name="voicemail_set_pin_dialog_title" msgid="2797924461029093837">"Imposta PIN"</string>
     <string name="voicemail_change_pin_dialog_title" msgid="6035421908626121564">"Cambia PIN"</string>
@@ -760,4 +766,12 @@
     <string name="supp_service_forwarded_call" msgid="4509980341645679803">"Trasferimento di chiamata."</string>
     <string name="supp_service_conference_call" msgid="4448616364004466832">"Accesso all\'audioconferenza."</string>
     <string name="supp_service_held_call_released" msgid="2030677825038709779">"La chiamata in attesa è stata chiusa."</string>
+    <!-- no translation found for callFailed_already_dialing (4652915396769232226) -->
+    <skip />
+    <!-- no translation found for callFailed_already_ringing (7747655701540586943) -->
+    <skip />
+    <!-- no translation found for callFailed_calling_disabled (7257184079619449933) -->
+    <skip />
+    <!-- no translation found for callFailed_too_many_calls (3023051919216926990) -->
+    <skip />
 </resources>
