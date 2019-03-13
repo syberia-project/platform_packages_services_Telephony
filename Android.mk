@@ -56,6 +56,10 @@ ifeq ($(PRODUCT_WANTS_QTI_SIM_SETTINGS),true)
 LOCAL_REQUIRED_MODULES := QtiSimSettings
 endif
 
+ifeq ($(TARGET_USES_ALTERNATIVE_MANUAL_NETWORK_SELECT),true)
+LOCAL_REQUIRED_MODULES += CustomNetworkSettings
+endif
+
 include frameworks/base/packages/SettingsLib/common.mk
 
 include $(BUILD_PACKAGE)

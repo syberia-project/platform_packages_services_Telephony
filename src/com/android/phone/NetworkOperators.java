@@ -59,13 +59,20 @@ public class NetworkOperators extends PreferenceCategory
     private Preference mChooseNetwork;
     private ProgressDialog mProgressDialog;
 
+    // Alternative manual network select
+    private Preference mAlternativeManualNetworkSelect;
+    private static final String BUTTON_ALTERNATIVE_MANUAL_NETWORK_SELECT_KEY = "button_alternative_manual_network_select";
+    private static final String ACTION_ALTERNATIVE_MANUAL_NETWORK_SELECT = "org.pixelexperience.ALTERNATIVE_MANUAL_NETWORK_SELECT";
+
     private int mSubId;
     private TelephonyManager mTelephonyManager;
+    int mPhoneId = SubscriptionManager.INVALID_PHONE_INDEX;
 
     // There's two sets of Auto-Select UI in this class.
     // If {@code com.android.internal.R.bool.config_enableNewAutoSelectNetworkUI} set as true
     // {@link mChooseNetwork} will be used, otherwise {@link mNetworkSelect} will be used.
     boolean mEnableNewManualSelectNetworkUI;
+    boolean mAlternativeManualNetworkSelectAvailable;
 
     public NetworkOperators(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -79,15 +86,23 @@ public class NetworkOperators extends PreferenceCategory
      * Initialize NetworkOperators instance.
      */
     public void initialize() {
-        mEnableNewManualSelectNetworkUI = getContext().getResources().getBoolean(
+        mAlternativeManualNetworkSelectAvailable = isAlternativeManualNetworkSelectAvailable();
+        mAlternativeManualNetworkSelect = findPreference(BUTTON_ALTERNATIVE_MANUAL_NETWORK_SELECT_KEY);
+        mEnableNewManualSelectNetworkUI = !mAlternativeManualNetworkSelectAvailable && getContext().getResources().getBoolean(
                 com.android.internal.R.bool.config_enableNewAutoSelectNetworkUI);
         mAutoSelect = (TwoStatePreference) findPreference(BUTTON_AUTO_SELECT_KEY);
         mChooseNetwork = findPreference(BUTTON_CHOOSE_NETWORK_KEY);
         mNetworkSelect = (NetworkSelectListPreference) findPreference(BUTTON_NETWORK_SELECT_KEY);
-        if (mEnableNewManualSelectNetworkUI) {
+        if (mAlternativeManualNetworkSelectAvailable){
+            removePreference(mAutoSelect);
             removePreference(mNetworkSelect);
+            removePreference(mChooseNetwork);
+        }else if (mEnableNewManualSelectNetworkUI) {
+            removePreference(mNetworkSelect);
+            removePreference(mAlternativeManualNetworkSelect);
         } else {
             removePreference(mChooseNetwork);
+            removePreference(mAlternativeManualNetworkSelect);
         }
         mProgressDialog = new ProgressDialog(getContext());
         mTelephonyManager = TelephonyManager.from(getContext());
@@ -100,6 +115,7 @@ public class NetworkOperators extends PreferenceCategory
      */
     protected void update(final int subId) {
         mSubId = subId;
+        mPhoneId = SubscriptionManager.getPhoneId(mSubId);
         mTelephonyManager = TelephonyManager.from(getContext()).createForSubscriptionId(mSubId);
 
         if (mAutoSelect != null) {
@@ -276,8 +292,22 @@ public class NetworkOperators extends PreferenceCategory
         getContext().startActivity(intent);
     }
 
+    private void openAlternativeManualNetworkSelect() {
+
+        Intent intent = new Intent(ACTION_ALTERNATIVE_MANUAL_NETWORK_SELECT);
+        intent.putExtra("sub_id", mPhoneId);
+        getContext().startActivity(intent);
+    }
+
+    private boolean isAlternativeManualNetworkSelectAvailable() {
+        return new Intent(ACTION_ALTERNATIVE_MANUAL_NETWORK_SELECT).resolveActivity(getContext().getPackageManager()) != null;
+    }
+
     protected boolean preferenceTreeClick(Preference preference) {
-        if (mEnableNewManualSelectNetworkUI) {
+        if (preference == mAlternativeManualNetworkSelect) {
+            openAlternativeManualNetworkSelect();
+            return true;
+        } else if (mEnableNewManualSelectNetworkUI) {
             if (DBG) logd("enable New AutoSelectNetwork UI");
             if (preference == mChooseNetwork) {
                 openChooseNetworkPage();
