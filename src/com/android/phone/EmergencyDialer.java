@@ -789,16 +789,15 @@ public class EmergencyDialer extends Activity implements View.OnClickListener,
     @Override
     protected void onResume() {
         super.onResume();
-        if (null != mStatusBarManager) {
-            mStatusBarManager.disable(
-                     StatusBarManager.DISABLE_RECENT|StatusBarManager.DISABLE_HOME);
-        }
 
         if (mProximitySensor != null) {
             mSensorManager.registerListener(
                     this, mProximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
-
+        if (null != mStatusBarManager) {
+            mStatusBarManager.disable(
+                     StatusBarManager.DISABLE_RECENT|StatusBarManager.DISABLE_HOME);
+        }
         // retrieve the DTMF tone play back setting.
         mDTMFToneEnabled = Settings.System.getInt(getContentResolver(),
                 Settings.System.DTMF_TONE_WHEN_DIALING, 1) == 1;
@@ -823,12 +822,11 @@ public class EmergencyDialer extends Activity implements View.OnClickListener,
     @Override
     public void onPause() {
         super.onPause();
-        if (null != mStatusBarManager) {
-            mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
-        }
-
         if (mProximitySensor != null) {
             mSensorManager.unregisterListener(this, mProximitySensor);
+        }
+        if (null != mStatusBarManager) {
+            mStatusBarManager.disable(StatusBarManager.DISABLE_NONE);
         }
     }
 

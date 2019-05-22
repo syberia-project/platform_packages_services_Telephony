@@ -378,6 +378,25 @@ public class GsmUmtsCallBarringOptions extends TimeConsumingPreferenceActivity
             Log.d(LOG_TAG, "onCreate, reading callbarring_options.xml file finished!");
         }
 
+        CarrierConfigManager configManager = (CarrierConfigManager)
+                mPhone.getContext().getSystemService(Context.CARRIER_CONFIG_SERVICE);
+        PersistableBundle carrierConfig;
+        if (mSubscriptionInfoHelper.hasSubId()) {
+            carrierConfig = configManager.getConfigForSubId(mSubscriptionInfoHelper.getSubId());
+        } else {
+            carrierConfig = configManager.getConfig();
+        }
+        boolean isPwChangeButtonVisible = true;
+        boolean isDisableAllButtonVisible = true;
+        if (carrierConfig != null) {
+            isPwChangeButtonVisible = carrierConfig.getBoolean(
+                    CarrierConfigManager.KEY_CALL_BARRING_SUPPORTS_PASSWORD_CHANGE_BOOL, true);
+            isDisableAllButtonVisible = carrierConfig.getBoolean(
+                    CarrierConfigManager.KEY_CALL_BARRING_SUPPORTS_DEACTIVATE_ALL_BOOL, true);
+        } else {
+            Log.w(LOG_TAG, "Couldn't access CarrierConfig bundle");
+        }
+
         // Get UI object references
         PreferenceScreen prefSet = getPreferenceScreen();
         mButtonBAOC = (CallBarringEditPreference) prefSet.findPreference(BUTTON_BAOC_KEY);
@@ -489,10 +508,8 @@ public class GsmUmtsCallBarringOptions extends TimeConsumingPreferenceActivity
             mButtonChangePW.setText(mIcicle.getString(DIALOG_PW_ENTRY_KEY));
         }
 
-        CarrierConfigManager configManager = (CarrierConfigManager)mPhone.
-            getContext().getSystemService(Context.CARRIER_CONFIG_SERVICE);
-        PersistableBundle pb = configManager.getConfigForSubId(mPhone.getSubId());
-        mCheckData = pb.getBoolean("check_mobile_data_for_cf");
+        mCheckData = carrierConfig.getBoolean("check_mobile_data_for_cf");
+
     }
 
     @Override
