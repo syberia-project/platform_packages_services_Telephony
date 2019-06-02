@@ -36,9 +36,6 @@
         android:key="data_usage_summary"
         android:title="@string/data_usage_title" />
 
-    <com.android.phone.AdvancedOptionsPreference
-        android:key="advanced_options"/>
-
     <SwitchPreference
         android:key="enhanced_4g_lte"
         android:title="@string/enhanced_4g_lte_mode_title"
