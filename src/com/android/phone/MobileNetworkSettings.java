@@ -269,7 +269,6 @@ public class MobileNetworkSettings extends Activity  {
         private static final String BUTTON_VIDEO_CALLING_KEY = "video_calling_key";
         private static final String BUTTON_MOBILE_DATA_ENABLE_KEY = "mobile_data_enable";
         private static final String BUTTON_DATA_USAGE_KEY = "data_usage_summary";
-        private static final String BUTTON_ADVANCED_OPTIONS_KEY = "advanced_options";
         private static final String CATEGORY_CALLING_KEY = "calling";
         private static final String CATEGORY_GSM_APN_EXPAND_KEY = "category_gsm_apn_key";
         private static final String CATEGORY_CDMA_APN_EXPAND_KEY = "category_cdma_apn_key";
@@ -286,8 +285,6 @@ public class MobileNetworkSettings extends Activity  {
         private static final String UP_ACTIVITY_CLASS =
                 "com.android.settings.Settings$WirelessSettingsActivity";
 
-        //Information that needs to save into Bundle.
-        private static final String EXPAND_ADVANCED_FIELDS = "expand_advanced_fields";
         //Intent extra to indicate expand all fields.
         private static final String EXPAND_EXTRA = "expandable";
 
@@ -295,7 +292,6 @@ public class MobileNetworkSettings extends Activity  {
         private TelephonyManager mTelephonyManager;
 
         //UI objects
-        private AdvancedOptionsPreference mAdvancedOptions;
         private ListPreference mButtonPreferredNetworkMode;
         private ListPreference mButtonEnabledNetworks;
         private RestrictedSwitchPreference mButtonDataRoam;
@@ -317,7 +313,6 @@ public class MobileNetworkSettings extends Activity  {
         private ImsManager mImsMgr;
         private MyHandler mHandler;
         private boolean mOkClicked;
-        private boolean mExpandAdvancedFields;
 
         // We assume the the value returned by mTabHost.getCurrentTab() == slotId
         private TabHost mTabHost;
@@ -509,10 +504,6 @@ public class MobileNetworkSettings extends Activity  {
             } else if (preference == mWiFiCallingPref || preference == mVideoCallingPref
                     || preference == mMobileDataPref || preference == mDataUsagePref) {
                 return false;
-            } else if (preference == mAdvancedOptions) {
-                mExpandAdvancedFields = true;
-                updateBody();
-                return true;
             } else {
                 // if the button is anything but the simple toggle preference,
                 // we'll need to disable all preferences to reject all click
@@ -715,10 +706,6 @@ public class MobileNetworkSettings extends Activity  {
         @Override
         public void onSaveInstanceState(Bundle outState) {
             super.onSaveInstanceState(outState);
-
-            // If advanced fields are already expanded, we save it and expand it
-            // when it's re-created.
-            outState.putBoolean(EXPAND_ADVANCED_FIELDS, mExpandAdvancedFields);
         }
 
         @Override
@@ -737,12 +724,6 @@ public class MobileNetworkSettings extends Activity  {
             mSubscriptionManager = SubscriptionManager.from(activity);
             mTelephonyManager = (TelephonyManager) activity.getSystemService(
                             Context.TELEPHONY_SERVICE);
-
-            if (icicle != null) {
-                mExpandAdvancedFields = icicle.getBoolean(EXPAND_ADVANCED_FIELDS, false);
-            } else if (getActivity().getIntent().getBooleanExtra(EXPAND_EXTRA, false)) {
-                mExpandAdvancedFields = true;
-            }
 
             bindNetworkQueryService();
 
@@ -776,8 +757,6 @@ public class MobileNetworkSettings extends Activity  {
                     BUTTON_PREFERED_NETWORK_MODE);
             mButtonEnabledNetworks = (ListPreference) prefSet.findPreference(
                     BUTTON_ENABLED_NETWORKS_KEY);
-            mAdvancedOptions = (AdvancedOptionsPreference) prefSet.findPreference(
-                    BUTTON_ADVANCED_OPTIONS_KEY);
             mButtonDataRoam.setOnPreferenceChangeListener(this);
 
             mLteDataServicePref = prefSet.findPreference(BUTTON_CDMA_LTE_DATA_SERVICE_KEY);
@@ -889,7 +868,7 @@ public class MobileNetworkSettings extends Activity  {
                     mDpcEnforcedContentObserver);
 
             Log.i(LOG_TAG, "onResume:-");
-
+            updateBody();
         }
 
         private boolean hasActiveSubscriptions() {
@@ -951,12 +930,7 @@ public class MobileNetworkSettings extends Activity  {
             prefSet.removeAll();
 
             updateBodyBasicFields(activity, prefSet, phoneSubId, hasActiveSubscriptions);
-
-            if (mExpandAdvancedFields) {
-                updateBodyAdvancedFields(activity, prefSet, phoneSubId, hasActiveSubscriptions);
-            } else {
-                prefSet.addPreference(mAdvancedOptions);
-            }
+            updateBodyAdvancedFields(activity, prefSet, phoneSubId, hasActiveSubscriptions);
         }
 
         private void updateBodyAdvancedFields(Activity activity, PreferenceScreen prefSet,
@@ -2029,7 +2003,7 @@ public class MobileNetworkSettings extends Activity  {
             // open the list dialog. When a value is chosen, another MetricsEvent is logged with
             // new value in onPreferenceChange.
             if (preference == mLteDataServicePref || preference == mDataUsagePref
-                    || preference == mEuiccSettingsPref || preference == mAdvancedOptions
+                    || preference == mEuiccSettingsPref
                     || preference == mWiFiCallingPref || preference == mButtonPreferredNetworkMode
                     || preference == mButtonEnabledNetworks
                     || preference == preferenceScreen.findPreference(BUTTON_CDMA_SYSTEM_SELECT_KEY)
@@ -2075,8 +2049,6 @@ public class MobileNetworkSettings extends Activity  {
                 return MetricsEvent.ACTION_MOBILE_NETWORK_DATA_USAGE;
             } else if (preference == mLteDataServicePref) {
                 return MetricsEvent.ACTION_MOBILE_NETWORK_SET_UP_DATA_SERVICE;
-            } else if (preference == mAdvancedOptions) {
-                return MetricsEvent.ACTION_MOBILE_NETWORK_EXPAND_ADVANCED_FIELDS;
             } else if (preference == mButton4glte) {
                 return MetricsEvent.ACTION_MOBILE_ENHANCED_4G_LTE_MODE_TOGGLE;
             } else if (preference == mButtonPreferredNetworkMode) {

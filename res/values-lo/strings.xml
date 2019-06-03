@@ -250,7 +250,6 @@
     <string name="roaming_alert_title" msgid="3654815360303826008">"ອະນຸຍາດໃຫ້ໂຣມມິງຂໍ້ມູນບໍ?"</string>
     <string name="data_usage_title" msgid="4042209259808900283">"ການໃຊ້ຂໍ້ມູນແອັບ"</string>
     <string name="data_usage_template" msgid="8526428824844656364">"ໃຊ້ອິນເຕີເນັດໄປແລ້ວ <xliff:g id="ID_1">%1$s</xliff:g> ລະຫວ່າງ <xliff:g id="ID_2">%2$s</xliff:g>"</string>
-    <string name="advanced_options_title" msgid="8074895510265488035">"ຂັ້ນສູງ"</string>
     <string name="carrier_settings_euicc" msgid="6714062862127226405">"ຜູ່ໃຫ້ບໍລິການ"</string>
     <string name="keywords_carrier_settings_euicc" msgid="6861505396475991277">"ຜູ້ໃຫ້ບໍລິການ, esim, sim, euicc, ສະຫຼັບຜູ້ໃຫ້ບໍລິການ, ເພີ່ມຜູ້ໃຫ້ບໍລິການ"</string>
     <string name="carrier_settings_euicc_summary" msgid="5115001942761995457">"<xliff:g id="CARRIER_NAME">%1$s</xliff:g> — <xliff:g id="PHONE_NUMBER">%2$s</xliff:g>"</string>

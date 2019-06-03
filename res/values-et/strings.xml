@@ -250,7 +250,6 @@
     <string name="roaming_alert_title" msgid="3654815360303826008">"Kas lubada andmeside rändlus?"</string>
     <string name="data_usage_title" msgid="4042209259808900283">"Rakenduste andmekasutus"</string>
     <string name="data_usage_template" msgid="8526428824844656364">"Vahemikus <xliff:g id="ID_2">%2$s</xliff:g> on kasutatud <xliff:g id="ID_1">%1$s</xliff:g> mobiilset andmesidet"</string>
-    <string name="advanced_options_title" msgid="8074895510265488035">"Täpsemad"</string>
     <string name="carrier_settings_euicc" msgid="6714062862127226405">"Operaator"</string>
     <string name="keywords_carrier_settings_euicc" msgid="6861505396475991277">"operaator, esim, sim, euicc, vaheta operaatorit, lisa operaator"</string>
     <string name="carrier_settings_euicc_summary" msgid="5115001942761995457">"<xliff:g id="CARRIER_NAME">%1$s</xliff:g> – <xliff:g id="PHONE_NUMBER">%2$s</xliff:g>"</string>

@@ -132,7 +132,6 @@ public class PhoneSearchIndexablesProvider extends SearchIndexablesProvider {
             // TODO: b/63381516 all hidden buttons should dynamically be removed from search result.
             cursor.addRow(createNonIndexableRow("enabled_networks_key" /* key */));
             cursor.addRow(createNonIndexableRow("carrier_settings_euicc_key" /* key */));
-            cursor.addRow(createNonIndexableRow("advanced_options" /* key */));
             return cursor;
         } finally {
             Binder.restoreCallingIdentity(uidToken);

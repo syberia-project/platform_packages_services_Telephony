@@ -250,7 +250,6 @@
     <string name="roaming_alert_title" msgid="3654815360303826008">"Të lejohet përdorimi i të dhënave kur je në roaming?"</string>
     <string name="data_usage_title" msgid="4042209259808900283">"Përdorimi i të dhënave të aplikacioneve"</string>
     <string name="data_usage_template" msgid="8526428824844656364">"<xliff:g id="ID_1">%1$s</xliff:g> të dhëna celulare të përdorura mes datave <xliff:g id="ID_2">%2$s</xliff:g>"</string>
-    <string name="advanced_options_title" msgid="8074895510265488035">"Të përparuara"</string>
     <string name="carrier_settings_euicc" msgid="6714062862127226405">"Operatori celular"</string>
     <string name="keywords_carrier_settings_euicc" msgid="6861505396475991277">"operatori celular, esim, sim, euicc, ndërro operatorët celularë, shto operatorin celular"</string>
     <string name="carrier_settings_euicc_summary" msgid="5115001942761995457">"<xliff:g id="CARRIER_NAME">%1$s</xliff:g> - <xliff:g id="PHONE_NUMBER">%2$s</xliff:g>"</string>

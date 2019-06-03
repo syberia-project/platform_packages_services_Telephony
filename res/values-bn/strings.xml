@@ -250,7 +250,6 @@
     <string name="roaming_alert_title" msgid="3654815360303826008">"ডেটা রোমিংয়ের অনুমতি দেবেন?"</string>
     <string name="data_usage_title" msgid="4042209259808900283">"অ্যাপ ডেটার ব্যবহার"</string>
     <string name="data_usage_template" msgid="8526428824844656364">"<xliff:g id="ID_2">%2$s</xliff:g> এর মধ্যে <xliff:g id="ID_1">%1$s</xliff:g> মোবাইল ডেটা ব্যবহার করা হয়েছে"</string>
-    <string name="advanced_options_title" msgid="8074895510265488035">"উন্নত"</string>
     <string name="carrier_settings_euicc" msgid="6714062862127226405">"পরিষেবা প্রদানকারী"</string>
     <string name="keywords_carrier_settings_euicc" msgid="6861505396475991277">"কানেকশন, ই-সিম, সিম, euicc, কানেকশন পাল্টানো, কানেকশন যোগ করা"</string>
     <string name="carrier_settings_euicc_summary" msgid="5115001942761995457">"<xliff:g id="CARRIER_NAME">%1$s</xliff:g> — <xliff:g id="PHONE_NUMBER">%2$s</xliff:g>"</string>

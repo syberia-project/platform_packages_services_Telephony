@@ -250,7 +250,6 @@
     <string name="roaming_alert_title" msgid="3654815360303826008">"要允許數據漫遊嗎？"</string>
     <string name="data_usage_title" msgid="4042209259808900283">"應用程式數據用量"</string>
     <string name="data_usage_template" msgid="8526428824844656364">"<xliff:g id="ID_2">%2$s</xliff:g>期間使用了 <xliff:g id="ID_1">%1$s</xliff:g>流動數據"</string>
-    <string name="advanced_options_title" msgid="8074895510265488035">"進階設定"</string>
     <string name="carrier_settings_euicc" msgid="6714062862127226405">"流動網絡供應商"</string>
     <string name="keywords_carrier_settings_euicc" msgid="6861505396475991277">"流動網絡供應商, eSIM 卡, SIM 卡, euicc, 切換流動網絡供應商, 新增流動網絡供應商"</string>
     <string name="carrier_settings_euicc_summary" msgid="5115001942761995457">"<xliff:g id="CARRIER_NAME">%1$s</xliff:g> — <xliff:g id="PHONE_NUMBER">%2$s</xliff:g>"</string>

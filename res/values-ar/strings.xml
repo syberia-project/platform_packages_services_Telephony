@@ -250,7 +250,6 @@
     <string name="roaming_alert_title" msgid="3654815360303826008">"السماح بتجوال البيانات؟"</string>
     <string name="data_usage_title" msgid="4042209259808900283">"استخدام بيانات التطبيق"</string>
     <string name="data_usage_template" msgid="8526428824844656364">"تم استخدام <xliff:g id="ID_1">%1$s</xliff:g> من بيانات الجوّال خلال الفترة بين <xliff:g id="ID_2">%2$s</xliff:g>"</string>
-    <string name="advanced_options_title" msgid="8074895510265488035">"إعدادات متقدمة"</string>
     <string name="carrier_settings_euicc" msgid="6714062862127226405">"مشغل شبكة الجوّال"</string>
     <string name="keywords_carrier_settings_euicc" msgid="6861505396475991277">"‏مشغل شبكة الجوال، esim، شريحة sim، euicc، تبديل مشغلي شبكات الجوال، ومشغل شبكة الجوال"</string>
     <string name="carrier_settings_euicc_summary" msgid="5115001942761995457">"<xliff:g id="CARRIER_NAME">%1$s</xliff:g> — <xliff:g id="PHONE_NUMBER">%2$s</xliff:g>"</string>
