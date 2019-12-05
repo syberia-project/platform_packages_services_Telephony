@@ -5386,15 +5386,21 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public boolean isRttEnabled(int subscriptionId) {
         final long identity = Binder.clearCallingIdentity();
         try {
-            boolean isRttSupported = isRttSupported(subscriptionId);
-            boolean isUserRttSettingOn = Settings.Secure.getInt(
-                    mApp.getContentResolver(), Settings.Secure.RTT_CALLING_MODE, 0) != 0;
-            boolean shouldIgnoreUserRttSetting = mApp.getCarrierConfigForSubId(subscriptionId)
-                    .getBoolean(CarrierConfigManager.KEY_IGNORE_RTT_MODE_SETTING_BOOL);
-            return isRttSupported && (isUserRttSettingOn || shouldIgnoreUserRttSetting);
+            int phoneId = SubscriptionManager.getPhoneId(subscriptionId);
+            if (!SubscriptionManager.isValidPhoneId(phoneId)) {
+                loge("phoneId " + phoneId + " is not valid.");
+                return false;
+            }
+            return isRttSupported(subscriptionId) && Settings.Secure.getInt(
+                    mApp.getContentResolver(),
+                    Settings.Secure.RTT_CALLING_MODE + convertRttPhoneId(phoneId) , 0) != 0;
         } finally {
             Binder.restoreCallingIdentity(identity);
         }
+    }
+
+    private static String convertRttPhoneId(int phoneId) {
+        return phoneId != 0 ? Integer.toString(phoneId) : "";
     }
 
     /**
