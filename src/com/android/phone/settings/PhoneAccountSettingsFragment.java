@@ -8,7 +8,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Icon;
 import android.net.sip.SipManager;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+//import android.os.PersistableBundle;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.UserManager;
