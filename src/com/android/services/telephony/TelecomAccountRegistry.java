@@ -296,6 +296,13 @@ public class TelecomAccountRegistry {
                 capabilities |= PhoneAccount.CAPABILITY_EMERGENCY_PREFERRED;
             }
 
+            if (isRttCurrentlySupported()) {
+                capabilities |= PhoneAccount.CAPABILITY_RTT;
+                mIsRttCapable = true;
+            } else {
+                mIsRttCapable = false;
+            }
+
             mIsVideoCapable = mPhone.isVideoEnabled();
             boolean isVideoEnabledByPlatform = ImsManager.getInstance(mPhone.getContext(),
                     mPhone.getPhoneId()).isVtEnabledByPlatform();
