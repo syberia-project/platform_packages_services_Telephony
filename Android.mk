@@ -52,6 +52,10 @@ LOCAL_PRIVILEGED_MODULE := true
 
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags sip/proguard.flags
 
+ifeq ($(PRODUCT_WANTS_QTI_SIM_SETTINGS),true)
+LOCAL_REQUIRED_MODULES := QtiSimSettings
+endif
+
 include frameworks/base/packages/SettingsLib/common.mk
 
 include $(BUILD_PACKAGE)
