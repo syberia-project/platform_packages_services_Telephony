@@ -320,7 +320,6 @@ public class PhoneGlobals extends ContextWrapper {
                     } else {
                         Log.w(LOG_TAG, "phone object is null subId: " + subId);
                     }
-                    break;
             }
         }
     };
