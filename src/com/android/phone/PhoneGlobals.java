@@ -121,7 +121,8 @@ public class PhoneGlobals extends ContextWrapper {
     private static final int EVENT_RESTART_SIP = 14;
     private static final int EVENT_DATA_ROAMING_SETTINGS_CHANGED = 15;
     private static final int EVENT_MOBILE_DATA_SETTINGS_CHANGED = 16;
-    private static final int EVENT_DATA_CONNECTION_ATTACHED = 17;
+    private static final int EVENT_CARRIER_CONFIG_CHANGED = 17;
+    private static final int EVENT_DATA_CONNECTION_ATTACHED = 18;
 
     // The MMI codes are also used by the InCallScreen.
     public static final int MMI_INITIATE = 51;
@@ -306,20 +307,27 @@ public class PhoneGlobals extends ContextWrapper {
                 case EVENT_MOBILE_DATA_SETTINGS_CHANGED:
                     updateDataRoamingStatus();
                     break;
+                case EVENT_CARRIER_CONFIG_CHANGED:
+                    int subId = (Integer) msg.obj;
+                    // The voicemail number could be overridden by carrier config, so need to
+                    // refresh the message waiting (voicemail) indicator.
+                    refreshMwiIndicator(subId);
+                    break;
                 case EVENT_DATA_CONNECTION_ATTACHED:
-                    int subId = (Integer)((AsyncResult)msg.obj).userObj;
-                    Phone phone = getPhone(subId);
+                    int subIdQ = (Integer)((AsyncResult)msg.obj).userObj;
+                    Phone phone = getPhone(subIdQ);
                     if (phone != null) {
                         DataConnectionReasons reasons = new DataConnectionReasons();
                         boolean dataAllowed = phone.isDataAllowed(ApnSetting.TYPE_DEFAULT, reasons);
-                        if (!dataAllowed && dataIsNowRoaming(subId)
-                                && subId == mDefaultDataSubId) {
+                        if (!dataAllowed && dataIsNowRoaming(subIdQ)
+                                && subIdQ == mDefaultDataSubId) {
                             if (VDBG) Log.v(LOG_TAG, "EVENT_DATA_CONNECTION_ATTACHED");
                                 updateDataRoamingStatus();
                         }
                     } else {
-                        Log.w(LOG_TAG, "phone object is null subId: " + subId);
+                        Log.w(LOG_TAG, "phone object is null subId: " + subIdQ);
                     }
+                    break;
             }
         }
     };
